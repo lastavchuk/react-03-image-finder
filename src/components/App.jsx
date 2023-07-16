@@ -46,8 +46,7 @@ export class App extends Component {
                 }));
             }
         } catch (error) {
-            console.log(error);
-            Notify.failure(`Someting wrong</br>${error}`, {
+            Notify.failure(`Someting wrong!</br><b>${error.message}</b>`, {
                 plainText: false,
             });
         } finally {
