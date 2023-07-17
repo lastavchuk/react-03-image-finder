@@ -23,19 +23,22 @@ export class App extends Component {
             prevState.currentPage !== this.state.currentPage ||
             prevState.searchTerm !== this.state.searchTerm
         ) {
-            this.getImages(this.state.searchTerm, this.state.currentPage);
+            this.getImages();
         }
     }
 
-    getImages = async (value, page) => {
+    getImages = async () => {
         this.setState({ isLoading: true });
         try {
-            const resp = await requestGetImages(value, page);
+            const resp = await requestGetImages(
+                this.state.searchTerm,
+                this.state.currentPage
+            );
             if (!resp.hits.length) {
                 Notify.warning('No images found');
                 return;
             }
-            if (page === 1) {
+            if (this.state.currentPage === 1) {
                 this.setState(() => ({
                     images: resp.hits,
                     totalPages: Math.ceil(resp.totalHits / 12),
@@ -61,11 +64,9 @@ export class App extends Component {
     };
 
     loadMore = async () => {
-        if (this.state.currentPage < this.state.totalPages) {
-            this.setState(prevState => ({
-                currentPage: prevState.currentPage + 1,
-            }));
-        }
+        this.setState(prevState => ({
+            currentPage: prevState.currentPage + 1,
+        }));
     };
 
     openModal = data => {
