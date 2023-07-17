@@ -57,6 +57,7 @@ export class App extends Component {
     onGetNewImages = async e => {
         e.preventDefault();
         this.setState({ currentPage: 1, searchTerm: e.target.search.value });
+        e.target.reset();
     };
 
     loadMore = async () => {
